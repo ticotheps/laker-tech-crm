@@ -227,6 +227,7 @@ Temporary Items
 # SageMath parsed files
 
 # Environments
+.prettierrc
 
 # Spyder project settings
 
