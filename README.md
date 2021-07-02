@@ -28,14 +28,16 @@ record-keeping ended up causing much confusion & headache due to:
 - overall lack of ease with usability. 
 
 This new CRM was designed and built to be the next improved-upon iteration for
-device management during the 2021-2022 school year. Its aims are to improve:
+device management during the 2021-2022 school year. 
+
+The CRM aims to improve the following:
+- data integrity (i.e. - zero duplicate entries).
 - efficiency (i.e. - the ability to generate a list of students who have not
   returned loaned devices using a single click instead of taking 14 days) 
 - usability (i.e. - devices can be checked-in/out in less than 60 seconds while
   maintaining high data integrity)
 - extensibility (i.e. - designated Laker staff apart from the Technology
   department staff have the ability to check-in/out devices)
-- data integrity (i.e. - zero duplicate entries).
 
 
 ### Attribution
