@@ -46,12 +46,8 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Laker Technology Staff
 
-|
-[Scott Miklovic](https://www.linkedin.com/in/scott-miklovic-7120b992/)
-|
-[David J. Segroves](https://www.linkedin.com/in/david-segroves-466b4a1ab/)
-|
-[Tico S. Thepsourinthone](https://www.linkedin.com/in/ticotheps/)
-|
-
-| [<img src="https://res.cloudinary.com/tico-cloudinary/image/upload/v1625235287/laker-tech-crm/scott_avatar_yiofxp.jpg" width= "125" height="auto" style="object-fit:cover; overflow:hidden;" />](https://www.linkedin.com/in/scott-miklovic-7120b992/) | [<img src="https://res.cloudinary.com/tico-cloudinary/image/upload/v1625235288/laker-tech-crm/david_avatar_ebdp22.png" width= "120" height="auto" style="object-fit:cover; overflow:hidden;" />](https://www.linkedin.com/in/david-segroves-466b4a1ab/) | [<img src="https://res.cloudinary.com/tico-cloudinary/image/upload/v1625235288/laker-tech-crm/tico_avatar_jixtex.png" width= "125" height="auto" style="object-fit:cover; overflow:hidden;"  />](https://www.linkedin.com/in/ticotheps/)
+|     [Scott Miklovic](https://www.linkedin.com/in/scott-miklovic-7120b992/)
+|     [David J. Segroves](https://www.linkedin.com/in/david-segroves-466b4a1ab/)
+|     [Tico S. Thepsourinthone](https://www.linkedin.com/in/ticotheps/)     |
+ 
+|[<img src="https://res.cloudinary.com/tico-cloudinary/image/upload/v1625235287/laker-tech-crm/scott_avatar_yiofxp.jpg" width= "125" height="auto" style="object-fit:cover; overflow:hidden;" />](https://www.linkedin.com/in/scott-miklovic-7120b992/)|[<img src="https://res.cloudinary.com/tico-cloudinary/image/upload/v1625235288/laker-tech-crm/david_avatar_ebdp22.png" width= "120" height="auto" style="object-fit:cover; overflow:hidden;" />](https://www.linkedin.com/in/david-segroves-466b4a1ab/)|[<img src="https://res.cloudinary.com/tico-cloudinary/image/upload/v1625235288/laker-tech-crm/tico_avatar_jixtex.png" width= "125" height="auto" style="object-fit:cover; overflow:hidden;"  />](https://www.linkedin.com/in/ticotheps/)
