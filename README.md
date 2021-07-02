@@ -15,16 +15,27 @@
 
 ## Project Overview
 
-Although adequate for the season in which it was used, the previous method of
-device management during the 2020-2021 school year included data entry/retrieval
-into multiple Google sheets. This caused much confusion & headache due to: too
-many sources of 'truth', frequent user errors during data entry (i.e. -
-duplicate entries, spelling errors, etc.), & lack of usability. 
+The previous method of device management for hundreds of Laker Elementary, Middle, & High School
+students & staff during the 2020-2021 school year mainly consisted of data entry
+and retrieval using multiple Google sheets. 
 
-The Laker Technology Department's CRM was built as the next iteration for device
-management of Laker staff members'
-and students' Chromebooks, iPads, & other devices. It aims to improve:
-efficiency, usability, & data integrity.
+Although adequate for the seasons in which they were used, the Google sheet
+record-keeping ended up causing much confusion & headache due to: 
+- too many sources of 'truth'.
+- frequent data entry errors (i.e. - misspelled names, inconsistency with casing, etc.).
+- duplicate entries.
+- missing entries.
+- overall lack of ease with usability. 
+
+This new CRM was designed and built to be the next improved-upon iteration for
+device management during the 2021-2022 school year. Its aims are to improve:
+- efficiency (i.e. - the ability to generate a list of students who have not
+  returned loaned devices using a single click instead of taking 14 days) 
+- usability (i.e. - devices can be checked-in/out in less than 60 seconds while
+  maintaining high data integrity)
+- extensibility (i.e. - designated Laker staff apart from the Technology
+  department staff have the ability to check-in/out devices)
+- data integrity (i.e. - zero duplicate entries).
 
 
 ### Attribution
