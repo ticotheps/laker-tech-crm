@@ -1,18 +1,21 @@
 from django.db import models
 
 class Device(models.Model):
-    DESKTOP     = 1
-    NOTEBOOK    = 2
-    TABLET      = 3
-    HOTSPOT     = 4
-    PROJECTOR   = 5
-    IP_PHONE    = 6
-    DOC_CAM     = 7
-    HD_TV       = 8
-    DRONE       = 9
-    TRI_POD     = 10
-    
+    # Choices for 'device_type' field.
+    SELECT      = 1
+    DESKTOP     = 2
+    NOTEBOOK    = 3
+    TABLET      = 4
+    HOTSPOT     = 5
+    PROJECTOR   = 6
+    IP_PHONE    = 7
+    DOC_CAM     = 8
+    HD_TV       = 9
+    SWIVL       = 10
+    DRONE       = 11
+    TRI_POD     = 12
     DEVICE_TYPE = (
+        (SELECT, ('Select a Device Type')),
         (DESKTOP, ('Desktop PC')),
         (NOTEBOOK, ('Notebook PC')),
         (TABLET, ('Tablet Device')),
@@ -21,12 +24,45 @@ class Device(models.Model):
         (IP_PHONE, ('IP Phone')),
         (DOC_CAM, ('Document Camera')),
         (HD_TV, ('High-Def TV')),
+        (SWIVL, ('Swivl')),
         (DRONE, ('Drone')),
         (TRI_POD, ('Camera Tri-Pod')),
     )
     
-    device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=NOTEBOOK)
-    manufacturer = models.CharField(max_length=50)
+    # Choices for 'manufacturer' field.
+    CHOOSE      = 100
+    APPLE       = 99
+    CASIO       = 98
+    DELL        = 97
+    DJI         = 96
+    EPSON       = 95
+    HP          = 94
+    LOGITECH    = 93
+    MITEL       = 92
+    PHILIPS     = 91
+    SAMSUNG     = 90
+    SHORETEL    = 89
+    SONY        = 88
+    SUPERSONIC  = 87
+    MANUFACTURER = (
+        (CHOOSE, ('Choose a Manufacturer')),
+        (APPLE, ('Apple')),
+        (CASIO, ('Casio')),
+        (DELL, ('Dell')),
+        (DJI, ('DJI')),
+        (EPSON, ('Epson')),
+        (HP, ('Hewlett-Packard (HP)')),
+        (LOGITECH, ('Logitech')),
+        (MITEL, ('Mitel')),
+        (PHILIPS, ('Philips')),
+        (SAMSUNG, ('Samsung')),
+        (SHORETEL, ('ShoreTel')),
+        (SONY, ('Sony')),
+        (SUPERSONIC, ('Supersonic')),
+    )
+    
+    device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=SELECT)
+    manufacturer = models.PositiveSmallIntegerField(choices=MANUFACTURER, default=CHOOSE)
     model = models.CharField(max_length=50)
     serial_number = models.CharField(max_length=50, verbose_name='Serial Number')
     imei_number = models.PositiveBigIntegerField(verbose_name='IMEI Number')
