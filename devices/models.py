@@ -36,10 +36,3 @@ class Device(models.Model):
     
     def __str__(self):
         return self.serial_number
-
-
-class DeviceType(models.Model):
-    name = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return self.name
