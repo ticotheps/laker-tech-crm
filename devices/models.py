@@ -9,3 +9,5 @@ class Device(models.Model):
     lan_mac_address = models.CharField(max_length=17)
     replacement_fee = models.DecimalField(max_digits=6, decimal_places=2)
     
+    def __str__(self):
+        return self.name
