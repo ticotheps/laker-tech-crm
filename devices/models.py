@@ -74,3 +74,15 @@ class Device(models.Model):
     
     def __str__(self):
         return self.serial_number
+    
+
+class AssetTag(models.Model):
+    tag_id = models.CharField(max_length=20, verbose_name='Tag ID')
+    qr_code = models.ImageField(blank=True, null=True, verbose_name='QR Code')
+    
+    class Meta:
+        verbose_name = 'Asset Tag'
+        verbose_name_plural = 'Asset Tags'
+    
+    def __str__(self):
+        return self.tag_id
