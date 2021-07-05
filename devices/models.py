@@ -15,7 +15,7 @@ class Device(models.Model):
     DRONE       = 11
     TRI_POD     = 12
     DEVICE_TYPE = (
-        (SELECT, ('Select a Device Type')),
+        (SELECT, ('Select Device Type')),
         (DESKTOP, ('Desktop PC')),
         (NOTEBOOK, ('Notebook PC')),
         (TABLET, ('Tablet Device')),
@@ -44,8 +44,9 @@ class Device(models.Model):
     SHORETEL    = 89
     SONY        = 88
     SUPERSONIC  = 87
+    SWIVL       = 86
     MANUFACTURER = (
-        (CHOOSE, ('Choose a Manufacturer')),
+        (CHOOSE, ('Choose Manufacturer')),
         (APPLE, ('Apple')),
         (CASIO, ('Casio')),
         (DELL, ('Dell')),
@@ -59,6 +60,7 @@ class Device(models.Model):
         (SHORETEL, ('ShoreTel')),
         (SONY, ('Sony')),
         (SUPERSONIC, ('Supersonic')),
+        (SWIVL, ('Swivl'))
     )
     
     device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=SELECT)
