@@ -63,22 +63,22 @@ class Device(models.Model):
         (SWIVL, ('Swivl'))
     )
     
-    device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=SELECT, verbose_name='Device Type')
     manufacturer = models.PositiveSmallIntegerField(choices=MANUFACTURER, default=CHOOSE)
+    device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=SELECT, verbose_name='Device Type')
     model = models.CharField(max_length=50)
     serial_number = models.CharField(max_length=50, verbose_name='Serial Number')
-    imei_number = models.PositiveBigIntegerField(verbose_name='IMEI Number', null=True)
-    wlan_mac_address = models.CharField(max_length=17, verbose_name='WLAN MAC Address', null=True)
-    lan_mac_address = models.CharField(max_length=17, verbose_name='LAN MAC Address', null=True)
+    imei_number = models.PositiveBigIntegerField(verbose_name='IMEI Number', null=True, blank=True)
+    wlan_mac_address = models.CharField(max_length=17, verbose_name='WLAN MAC Address', null=True, blank=True)
+    lan_mac_address = models.CharField(max_length=17, verbose_name='LAN MAC Address', null=True, blank=True)
     replacement_fee = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Replacement Fee', default=0.00)
-    asset_tag = models.ForeignKey('AssetTag', null=True, on_delete=models.SET_NULL, verbose_name='Asset Tag')
+    asset_tag = models.OneToOneField('AssetTag', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Asset Tag')
     
     def __str__(self):
         return self.serial_number
     
 
 class AssetTag(models.Model):
-    tag_id = models.CharField(max_length=20, verbose_name='Tag ID')
+    tag_id = models.CharField(max_length=20, verbose_name='Tag ID', unique=True)
     qr_code = models.ImageField(blank=True, null=True, verbose_name='QR Code')
     
     class Meta:
