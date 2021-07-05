@@ -63,7 +63,7 @@ class Device(models.Model):
         (SWIVL, ('Swivl'))
     )
     
-    device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=SELECT)
+    device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=SELECT, verbose_name='Device Type')
     manufacturer = models.PositiveSmallIntegerField(choices=MANUFACTURER, default=CHOOSE)
     model = models.CharField(max_length=50)
     serial_number = models.CharField(max_length=50, verbose_name='Serial Number')
