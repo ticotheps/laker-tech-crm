@@ -7,24 +7,23 @@ class Device(models.Model):
     DOC_CAM             = 3
     DRONE               = 4
     HD_TV               = 5
-    HOTSPOT             = 6
-    IP_PHONE            = 7
-    LAPTOP              = 8
-    LAPTOP_CHARGER      = 9
-    NOTEBOOK            = 10
-    NOTEBOOK_CHARGER    = 11
-    PROJECTOR           = 12
-    SWIVL               = 13
-    TABLET              = 14
-    TABLET_CHARGER      = 15
-    TRI_POD             = 16
+    IP_PHONE            = 6
+    LAPTOP              = 7
+    LAPTOP_CHARGER      = 8
+    NOTEBOOK            = 9
+    NOTEBOOK_CHARGER    = 10
+    PROJECTOR           = 11
+    SWIVL               = 12
+    TABLET              = 13
+    TABLET_CHARGER      = 14
+    TRI_POD             = 15
+    WIFI                = 16
     DEVICE_TYPE = (
         (SELECT, ('Select Device Type')),
         (DESKTOP, ('Desktop PC')),
         (DOC_CAM, ('Document Camera')),
         (DRONE, ('Drone')),
         (HD_TV, ('High-Def TV')),
-        (HOTSPOT, ('WiFi Hotspot')),
         (IP_PHONE, ('IP Phone')),
         # 'Laptop PC' = a portable computer with >= 8GB RAM (i.e. - older Lenovo ThinkPads).
         (LAPTOP, ('Laptop PC (>=8GB RAM)')),
@@ -37,6 +36,7 @@ class Device(models.Model):
         (TABLET, ('Tablet')),
         (TABLET_CHARGER, ('Tablet Charger')),
         (TRI_POD, ('Tri-Pod Stand')),
+        (WIFI, ('WiFi Hotspot')),
     )
 
     # Choices for 'make_and_model' field.
