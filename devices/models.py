@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Device(models.Model):
     # Choices for 'device_type' field.
@@ -72,13 +73,44 @@ class Device(models.Model):
         (LENOVO_L540_LAP, ('Lenovo - ThinkPad L540'))
     )
     
-    device_type = models.PositiveSmallIntegerField(choices=DEVICE_TYPE, default=SELECT, verbose_name='Device Type')
-    make_and_model = models.PositiveSmallIntegerField(choices=MAKE_AND_MODEL, default=CHOOSE, verbose_name='Make & Model')
-    serial_number = models.CharField(max_length=50, verbose_name='Serial Number')
-    imei_number = models.PositiveBigIntegerField(verbose_name='IMEI Number', null=True, blank=True)
-    wlan_mac_address = models.CharField(max_length=17, verbose_name='WLAN MAC Address', null=True, blank=True)
-    lan_mac_address = models.CharField(max_length=17, verbose_name='LAN MAC Address', null=True, blank=True)
-    asset_tag = models.OneToOneField('AssetTag', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Asset Tag')
+    device_type = models.PositiveSmallIntegerField(
+        choices=DEVICE_TYPE,
+        default=SELECT,
+        verbose_name='Device Type'
+    )
+    make_and_model = models.PositiveSmallIntegerField(
+        choices=MAKE_AND_MODEL,
+        default=CHOOSE,
+        verbose_name='Make & Model'
+    )
+    serial_number = models.CharField(
+        max_length=50,
+        verbose_name='Serial Number'
+    )
+    imei_number = models.PositiveBigIntegerField(
+        verbose_name='IMEI Number',
+        null=True,
+        blank=True
+    )
+    wlan_mac_address = models.CharField(
+        max_length=17,
+        verbose_name='WLAN MAC Address',
+        null=True,
+        blank=True
+    )
+    lan_mac_address = models.CharField(
+        max_length=17,
+        verbose_name='LAN MAC Address',
+        null=True,
+        blank=True
+    )
+    asset_tag = models.OneToOneField(
+        'AssetTag',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Asset Tag'
+    )
     
     def __str__(self):
         return self.serial_number
@@ -94,3 +126,64 @@ class AssetTag(models.Model):
     
     def __str__(self):
         return self.tag_id
+
+
+# Validator function for borrowers' email addresses (i.e. - "student@lakerschools.org").
+def validate_borrower_email(value):
+    if "@lakerschools.org" in value:
+         return value
+    else:
+        raise ValidationError("Please try again with a 'lakerschools.org' email address")
+
+
+class Borrower(models.Model):
+    # Choices for 'school_type' field.
+    CHOOSE          = 1
+    ELEM            = 2
+    MIDDLE          = 3
+    HIGH            = 4
+    SAIL            = 5
+    SCHOOL_TYPE = (
+        (CHOOSE, ('Choose School Type')),
+        (ELEM, ('Laker Elementary School')),
+        (MIDDLE, ('Laker Middle School')),
+        (HIGH, ('Laker High School')),
+        (SAIL, ('Laker S.A.I.L. Academy'))
+    )
+    
+    # Choices for 'school_building' field.
+    SELECT          = 10
+    PRIMARY         = 11
+    SECONDARY       = 12
+    ACADEMY         = 13
+    SCHOOL_BUILDING = (
+        (SELECT, ('Select School Buidling')),
+        (PRIMARY, ('Elementary Building')),
+        (SECONDARY, ('Secondary Building')),
+        (ACADEMY, ('S.A.I.L Academy Building')),
+    )
+    
+    first_name = models.CharField(max_length=30, verbose_name='First Name')
+    last_name = models.CharField(max_length=30, verbose_name='Last Name')
+    email = models.EmailField(
+        max_length=254,
+        verbose_name='Email Address',
+        unique=True,
+        validators=[validate_borrower_email]
+    )
+    school_type = models.PositiveSmallIntegerField(
+        choices=SCHOOL_TYPE,
+        default=CHOOSE,
+        verbose_name='School Type'
+    )
+    school_building = models.PositiveSmallIntegerField(
+        choices=SCHOOL_BUILDING,
+        default=SELECT,
+        verbose_name='School Building'
+    )
+    account_balance = models.DecimalField(
+        decimal_places=2,
+        default=0.0,
+        max_digits=6,
+        verbose_name='Account Balance'
+    )
