@@ -137,32 +137,69 @@ def validate_borrower_email(value):
 
 
 class Borrower(models.Model):
-    # Choices for 'school_type' field.
-    CHOOSE          = 1
-    ELEM            = 2
-    MIDDLE          = 3
-    HIGH            = 4
-    SAIL            = 5
-    SCHOOL_TYPE = (
-        (CHOOSE, ('Choose School Type')),
-        (ELEM, ('Laker Elementary School')),
-        (MIDDLE, ('Laker Middle School')),
-        (HIGH, ('Laker High School')),
-        (SAIL, ('Laker S.A.I.L. Academy'))
-    )
+    # # Choices for 'school_type' field.
+    # SCHOOL          = 1
+    # ELEM            = 2
+    # MIDDLE          = 3
+    # HIGH            = 4
+    # SAIL            = 5
+    # SCHOOL_TYPE = (
+    #     (SCHOOL, ('Choose School Type')),
+    #     (ELEM, ('Elementary School')),
+    #     (MIDDLE, ('Middle School')),
+    #     (HIGH, ('High School')),
+    #     (SAIL, ('S.A.I.L. Academy'))
+    # )
     
-    # Choices for 'school_building' field.
-    SELECT          = 10
-    PRIMARY         = 11
-    SECONDARY       = 12
-    ACADEMY         = 13
-    SCHOOL_BUILDING = (
-        (SELECT, ('Select School Buidling')),
-        (PRIMARY, ('Elementary Building')),
-        (SECONDARY, ('Secondary Building')),
-        (ACADEMY, ('S.A.I.L Academy Building')),
-    )
+    # # Choices for 'school_building' field.
+    # BUILDING        = 10
+    # PRIMARY         = 11
+    # SECONDARY       = 12
+    # ACADEMY         = 13
+    # SCHOOL_BUILDING = (
+    #     (BUILDING, ('Select School Buidling')),
+    #     (PRIMARY, ('Elementary Building')),
+    #     (SECONDARY, ('Secondary Building')),
+    #     (ACADEMY, ('S.A.I.L Academy Building')),
+    # )
     
+    # # Choices for 'graduation_year' field.
+    # GRADUATION      = 20
+    # GRAD_2022       = 22
+    # GRAD_2023       = 23
+    # GRAD_2024       = 24
+    # GRAD_2025       = 25
+    # GRAD_2026       = 26
+    # GRAD_2027       = 27
+    # GRAD_2028       = 28
+    # GRAD_2029       = 29
+    # GRAD_2030       = 30
+    # GRADUATION_YEAR = (
+    #     (GRADUATION, ('If applicable, select graduation year')),
+    #     (GRAD_2022, ('2022')),
+    #     (GRAD_2023, ('2023')),
+    #     (GRAD_2024, ('2024')),
+    #     (GRAD_2025, ('2025')),
+    #     (GRAD_2026, ('2026')),
+    #     (GRAD_2027, ('2027')),
+    #     (GRAD_2028, ('2028')),
+    #     (GRAD_2029, ('2029')),
+    #     (GRAD_2030, ('2030')),
+    # )
+    
+    # # Choices for 'borrower_type' field.
+    # BORROWER        = 30
+    # STUDENT         = 31
+    # TEACHER         = 32
+    # STAFF           = 33
+    # BORROWER_TYPE = (
+    #     (BORROWER, ('Pick Borrower Type')),
+    #     (STUDENT, ('Student')),
+    #     (TEACHER, ('Teacher')),
+    #     (STAFF, ('Staff Member')),
+    # )
+    
+
     first_name = models.CharField(max_length=30, verbose_name='First Name')
     last_name = models.CharField(max_length=30, verbose_name='Last Name')
     email = models.EmailField(
@@ -171,19 +208,34 @@ class Borrower(models.Model):
         unique=True,
         validators=[validate_borrower_email]
     )
-    school_type = models.PositiveSmallIntegerField(
-        choices=SCHOOL_TYPE,
-        default=CHOOSE,
-        verbose_name='School Type'
-    )
-    school_building = models.PositiveSmallIntegerField(
-        choices=SCHOOL_BUILDING,
-        default=SELECT,
-        verbose_name='School Building'
-    )
+    # borrower_type = models.PositiveSmallIntegerField(
+    #     choices=BORROWER_TYPE,
+    #     default=BORROWER,
+    #     verbose_name='Borrower Type'
+    # )
+    # graduation_year = models.PositiveSmallIntegerField(
+    #     choices=GRADUATION_YEAR,
+    #     default=GRADUATION,
+    #     verbose_name='Graduation Year',
+    #     null=True,
+    #     blank=True
+    # )
+    # school_type = models.PositiveSmallIntegerField(
+    #     choices=SCHOOL_TYPE,
+    #     default=SCHOOL,
+    #     verbose_name='School Type'
+    # )
+    # school_building = models.PositiveSmallIntegerField(
+    #     choices=SCHOOL_BUILDING,
+    #     default=BUILDING,
+    #     verbose_name='School Building'
+    # )
     account_balance = models.DecimalField(
         decimal_places=2,
         default=0.0,
         max_digits=6,
         verbose_name='Account Balance'
     )
+    
+    def __str__(self):
+        return f"{self.last_name}, {self.first_name}"
