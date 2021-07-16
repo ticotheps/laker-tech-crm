@@ -113,7 +113,8 @@ class Device(models.Model):
     )
     
     def __str__(self):
-        return self.serial_number
+        # Returns the last 4 characters of the serial number.
+        return self.serial_number[-4:]
     
 
 class AssetTag(models.Model):
