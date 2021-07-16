@@ -2,44 +2,6 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 class Device(models.Model):
-    # Choices for 'device_type' field.
-    SELECT              = 1
-    DESKTOP             = 2
-    DOC_CAM             = 3
-    DRONE               = 4
-    HD_TV               = 5
-    IP_PHONE            = 6
-    LAPTOP              = 7
-    LAPTOP_CHARGER      = 8
-    NOTEBOOK            = 9
-    NOTEBOOK_CHARGER    = 10
-    PROJECTOR           = 11
-    SWIVL               = 12
-    TABLET              = 13
-    TABLET_CHARGER      = 14
-    TRI_POD             = 15
-    WIFI                = 16
-    DEVICE_TYPE = (
-        (SELECT, ('Select Device Type')),
-        (DESKTOP, ('Desktop PC')),
-        (DOC_CAM, ('Document Camera')),
-        (DRONE, ('Drone')),
-        (HD_TV, ('High-Def TV')),
-        (IP_PHONE, ('IP Phone')),
-        # 'Laptop PC' = a portable computer with >= 8GB RAM (i.e. - older Lenovo ThinkPads).
-        (LAPTOP, ('Laptop PC (>=8GB RAM)')),
-        (LAPTOP_CHARGER, ('Laptop Charger')),
-        # 'Notebook PC' = a portable computer with < 8GB RAM (i.e. - Chromebooks).
-        (NOTEBOOK, ('Notebook PC (<8GB RAM)')),            
-        (NOTEBOOK_CHARGER, ('Notebook Charger')),
-        (PROJECTOR, ('Projector')),
-        (SWIVL, ('Swivl')),
-        (TABLET, ('Tablet')),
-        (TABLET_CHARGER, ('Tablet Charger')),
-        (TRI_POD, ('Tri-Pod Stand')),
-        (WIFI, ('WiFi Hotspot')),
-    )
-
     # Choices for 'make_and_model' field.
     CHOOSE              = 100
     APPLE_A1432_TAB     = 99
@@ -73,9 +35,11 @@ class Device(models.Model):
         (LENOVO_L540_LAP, ('Lenovo - ThinkPad L540'))
     )
     
-    device_type = models.PositiveSmallIntegerField(
-        choices=DEVICE_TYPE,
-        default=SELECT,
+    device_type = models.OneToOneField(
+        'DeviceType',
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
         verbose_name='Device Type'
     )
     make_and_model = models.PositiveSmallIntegerField(
