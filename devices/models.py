@@ -137,32 +137,6 @@ def validate_borrower_email(value):
 
 
 class Borrower(models.Model):
-    # # Choices for 'school_type' field.
-    # SCHOOL          = 1
-    # ELEM            = 2
-    # MIDDLE          = 3
-    # HIGH            = 4
-    # SAIL            = 5
-    # SCHOOL_TYPE = (
-    #     (SCHOOL, ('Choose School Type')),
-    #     (ELEM, ('Elementary School')),
-    #     (MIDDLE, ('Middle School')),
-    #     (HIGH, ('High School')),
-    #     (SAIL, ('S.A.I.L. Academy'))
-    # )
-    
-    # # Choices for 'school_building' field.
-    # BUILDING        = 10
-    # PRIMARY         = 11
-    # SECONDARY       = 12
-    # ACADEMY         = 13
-    # SCHOOL_BUILDING = (
-    #     (BUILDING, ('Select School Buidling')),
-    #     (PRIMARY, ('Elementary Building')),
-    #     (SECONDARY, ('Secondary Building')),
-    #     (ACADEMY, ('S.A.I.L Academy Building')),
-    # )
-    
     # # Choices for 'graduation_year' field.
     # GRADUATION      = 20
     # GRAD_2022       = 22
@@ -220,11 +194,6 @@ class Borrower(models.Model):
     #     null=True,
     #     blank=True
     # )
-    # school_type = models.PositiveSmallIntegerField(
-    #     choices=SCHOOL_TYPE,
-    #     default=SCHOOL,
-    #     verbose_name='School Type'
-    # )
     # school_building = models.PositiveSmallIntegerField(
     #     choices=SCHOOL_BUILDING,
     #     default=BUILDING,
@@ -239,3 +208,30 @@ class Borrower(models.Model):
     
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
+
+
+class School(models.Model):
+    # Choices for 'building' field.
+    SELECT          = 0
+    PRIMARY         = 1
+    SECONDARY       = 2
+    ACADEMY         = 3
+    BUILDING = (
+        (SELECT, ('Select School Buidling')),
+        (PRIMARY, ('Elementary Building')),
+        (SECONDARY, ('Secondary Building')),
+        (ACADEMY, ('S.A.I.L Academy Building')),
+    )
+    
+    name = models.CharField(
+        max_length=30,
+        verbose_name='School Name'
+    )
+    building = models.PositiveSmallIntegerField(
+        choices=BUILDING,
+        default=BUILDING,
+        verbose_name='School Building'
+    )
+    
+    def __str__(self):
+        return self.name
