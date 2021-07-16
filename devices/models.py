@@ -182,6 +182,12 @@ class Borrower(models.Model):
         unique=True,
         validators=[validate_borrower_email]
     )
+    school = models.name = models.ForeignKey(
+        'School',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
     # borrower_type = models.PositiveSmallIntegerField(
     #     choices=BORROWER_TYPE,
     #     default=BORROWER,
