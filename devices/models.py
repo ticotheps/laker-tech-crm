@@ -92,15 +92,15 @@ class Device(models.Model):
         null=True,
         blank=True
     )
-    wlan_mac_address = models.CharField(
-        max_length=17,
-        verbose_name='WLAN MAC Address',
-        null=True,
-        blank=True
-    )
     lan_mac_address = models.CharField(
         max_length=17,
         verbose_name='LAN MAC Address',
+        null=True,
+        blank=True
+    )
+    wlan_mac_address = models.CharField(
+        max_length=17,
+        verbose_name='WLAN MAC Address',
         null=True,
         blank=True
     )
@@ -115,7 +115,44 @@ class Device(models.Model):
     def __str__(self):
         # Returns the last 4 characters of the serial number.
         return self.serial_number[-4:]
-    
+
+
+# class Device(models.Model):
+#     manufacturer = models.CharField(max_length=30, verbose_name='Manufacturer', unique=True)
+#     model_year = models.PositiveSmallIntegerField(verbose_name='Model Year', unique=True)
+#     model_name = models.CharField(max_length=30, unique=True)
+
+#     class Meta:
+#         verbose_name = 'Device Type'
+#         verbose_name_plural = 'Device Types'
+        
+#     def __str__(self):
+#         return f"{self.manufacturer} - {self.model_year} {self.model_name}"
+
+
+class DeviceType(models.Model):
+    type = models.CharField(
+        max_length=50,
+        verbose_name='Type of Device',
+        null=False,
+        blank=False,
+        unique=True
+    )
+    sn_available = models.BooleanField(verbose_name='S/N (Serial Number) available for this device')
+    imei_available = models.BooleanField(verbose_name='IMEI (International Mobile Equipment Identity) number available for this device')
+    lan_mac_available = models.BooleanField(verbose_name='LAN (ethernet) MAC address available for this device')
+    wlan_mac_available = models.BooleanField(verbose_name='WLAN (wireless) MAC address available for this device')
+    live_stream = models.BooleanField(verbose_name='Used for live-streamed school events')
+    inperson_learning = models.BooleanField(verbose_name='Used for in-person learning')
+    virtual_learning = models.BooleanField(verbose_name='Used for virtual learning')
+
+    class Meta:
+        verbose_name = 'Device Type'
+        verbose_name_plural = 'Device Types'
+        
+    def __str__(self):
+        return self.type
+
 
 class AssetTag(models.Model):
     tag_id = models.CharField(max_length=20, verbose_name='Tag ID', unique=True)
@@ -200,11 +237,6 @@ class Borrower(models.Model):
     #     verbose_name='Graduation Year',
     #     null=True,
     #     blank=True
-    # )
-    # school_building = models.PositiveSmallIntegerField(
-    #     choices=SCHOOL_BUILDING,
-    #     default=BUILDING,
-    #     verbose_name='School Building'
     # )
     account_balance = models.DecimalField(
         decimal_places=2,
