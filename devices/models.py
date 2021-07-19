@@ -238,3 +238,14 @@ class School(models.Model):
     
     def __str__(self):
         return self.name
+    
+    
+class GraduationYear(models.Model):
+    year = models.PositiveSmallIntegerField(verbose_name='Graduation Year', null=False, blank=False)
+    
+    class Meta:
+        verbose_name = 'Graduation Year'
+        verbose_name_plural = 'Graduation Years'
+    
+    def __str__(self):
+        return self.year
