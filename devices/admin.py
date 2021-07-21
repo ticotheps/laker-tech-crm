@@ -4,6 +4,7 @@ from .models import (
     AssetTag,
     Borrower,
     BorrowerType,
+    Building,
     Device,
     DeviceType,
     GraduationYear,
@@ -14,6 +15,7 @@ admin.site.register(Asset)
 admin.site.register(AssetTag)
 admin.site.register(Borrower)
 admin.site.register(BorrowerType)
+admin.site.register(Building)
 admin.site.register(Device)
 admin.site.register(DeviceType)
 admin.site.register(GraduationYear)
