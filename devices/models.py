@@ -208,25 +208,15 @@ class GraduationYear(models.Model):
 
 
 class School(models.Model):
-    # Choices for 'building' field.
-    SELECT          = 0
-    PRIMARY         = 1
-    SECONDARY       = 2
-    ACADEMY         = 3
-    BUILDING = (
-        (SELECT, ('Select School Buidling')),
-        (PRIMARY, ('Elementary Building')),
-        (SECONDARY, ('Secondary Building')),
-        (ACADEMY, ('S.A.I.L Academy Building')),
-    )
-    
     name = models.CharField(
         max_length=30,
         verbose_name='School Name'
     )
-    building = models.PositiveSmallIntegerField(
-        choices=BUILDING,
-        default=BUILDING,
+    building = models.name = models.ForeignKey(
+        'Building',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         verbose_name='School Building'
     )
     
