@@ -110,7 +110,18 @@ class BorrowerType(models.Model):
         verbose_name_plural = 'Borrower Types'
         
     def __str__(self):
-        return self.name        
+        return self.name
+    
+
+class Building(models.Model):
+    name = models.CharField(
+        max_length=30,
+        null=False,
+        blank=False
+    )
+    
+    def __str__(self):
+        return self.name
 
 
 class Device(models.Model):
