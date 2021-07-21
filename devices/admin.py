@@ -5,6 +5,7 @@ from .models import (
     Borrower,
     BorrowerType,
     Building,
+    ContactInfo,
     Device,
     DeviceType,
     GraduationYear,
