@@ -366,3 +366,15 @@ class State(models.Model):
     
     def __str__(self):
         return f"{self.abbreviation} ({self.name})"
+    
+
+class TransactionType(models.Model):
+    name = models.CharField(max_length=20, null=False, blank=False, unique=True)
+
+    class Meta:
+        verbose_name = 'Transaction Type'
+        verbose_name_plural = 'Transaction Types'
+
+    def __str__(self):
+        return self.name    
+
