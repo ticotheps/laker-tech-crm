@@ -13,7 +13,8 @@ class Asset(models.Model):
         'AssetTag',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        verbose_name='Asset Tag'
     )
     borrower = models.ForeignKey(
         'Borrower',
@@ -205,7 +206,7 @@ class ContactInfoEntry(models.Model):
     primary_phone = models.CharField(
         validators=[phone_regex],
         max_length=16,
-        verbose_name='Primary Contact Number',
+        verbose_name='Primary Phone Number',
         null=False,
         blank=False
     )
@@ -213,12 +214,12 @@ class ContactInfoEntry(models.Model):
         choices=PHONE_TYPE,
         null=True,
         blank=False,
-        verbose_name='Primary Contact Number Type'
+        verbose_name='Primary Phone Number Type'
     )
     secondary_phone = models.CharField(
         validators=[phone_regex],
         max_length=16,
-        verbose_name='Secondary Contact Number',
+        verbose_name='Secondary Phone Number',
         null=True,
         blank=True
     )
@@ -226,7 +227,7 @@ class ContactInfoEntry(models.Model):
         choices=PHONE_TYPE,
         null=True,
         blank=True,
-        verbose_name='Secondary Contact Number Type'
+        verbose_name='Secondary Phone Number Type'
     )
     
     class Meta:
@@ -238,57 +239,76 @@ class ContactInfoEntry(models.Model):
 
 
 class Device(models.Model):
-    # # Choices for 'make_and_model' field.
-    # CHOOSE              = 100
-    # APPLE_A1432_TAB     = 99
-    # APPLE_A1489_TAB     = 98
-    # APPLE_A1893_TAB     = 97
-    # APPLE_A2270_TAB     = 96
-    # DELL_3020_PC        = 95
-    # DELL_3100_NB        = 94
-    # HP_11_A_NB          = 93
-    # HP_11_V_NB          = 92
-    # HP_400_PC           = 91
-    # HP_600_PC           = 90
-    # LENOVO_300E_NB      = 89
-    # LENOVO_L450_LAP     = 88
-    # LENOVO_L540_LAP     = 87
-
-    # MAKE_AND_MODEL = (
-    #     (CHOOSE, ('Choose Device Make - Model')),
-    #     (APPLE_A1432_TAB, ('Apple - iPad mini (1st Gen, Model A1432)')),
-    #     (APPLE_A1489_TAB, ('Apple - iPad mini 2 (2nd Gen, Model A1489)')),
-    #     (APPLE_A1893_TAB, ('Apple - iPad (6th Gen, Model A1893)')),
-    #     (APPLE_A2270_TAB, ('Apple - iPad (8th Gen, Model A2270)')),       
-    #     (DELL_3020_PC, ('Dell - OptiPlex 3020 (Teacher-grade PC)')),
-    #     (DELL_3100_NB, ('Dell - Chromebook 3100 (USB-C charger)')),
-    #     (HP_11_A_NB, ('HP - Chromebook 11A G8 EE (USB-C charger)')),
-    #     (HP_11_V_NB, ('HP - Chromebook 11-v031nr (AC Adapter, blue-tip plug)')),
-    #     (HP_400_PC, ('HP - ProDesk 400 G6 SFF (Lab-grade PC)')),
-    #     (HP_600_PC, ('HP - ProDesk 600 G5 SFF (Teacher-grade PC)')),
-    #     (LENOVO_300E_NB, ('Lenovo - 300e (2nd Gen.)')),
-    #     (LENOVO_L450_LAP, ('Lenovo - ThinkPad L450')),
-    #     (LENOVO_L540_LAP, ('Lenovo - ThinkPad L540'))
-    # )
-    
-    device_type = models.OneToOneField(
-        'DeviceType',
-        on_delete=models.CASCADE,
-        null=False,
-        blank=False,
-        verbose_name='Device Type'
-    )
-    device_maker = models.CharField(
-        max_length=30,
+    device_category = models.ForeignKey(
+        'DeviceCategory',
+        on_delete=models.SET_NULL,
         null=True,
-        blank=True,
-        unique=True,
+        blank=False,
+        verbose_name='Device Category'
+    )
+    device_maker = models.ForeignKey(
+        'DeviceMaker',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
         verbose_name='Device Maker'
     )
-    model_name = models.CharField(max_length=30, null=True, blank=True, unique=True)
+    device_model = models.ForeignKey(
+        'DeviceModel',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        verbose_name='Device Model'
+    )
     
     def __str__(self):
-        return f"{self.manufacturer} - {self.model_name}"
+        return f"{self.device_maker} - {self.device_model} ({self.device_category})"
+    
+    
+class DeviceCategory(models.Model):
+    name = models.CharField(
+        max_length=50,
+        verbose_name='Category Name',
+        null=False,
+        blank=False,
+        unique=True
+    )
+    sn_available = models.BooleanField(
+        default=False,
+        verbose_name='S/N (Serial Number) available for this device'
+    )
+    imei_available = models.BooleanField(
+        default=False,
+        verbose_name='IMEI (International Mobile Equipment Identity) number available for this device'
+    )
+    lan_mac_available = models.BooleanField(
+        default=False,
+        verbose_name='LAN (ethernet) MAC address available for this device'
+    )
+    wlan_mac_available = models.BooleanField(
+        default=False,
+        verbose_name='WLAN (wireless) MAC address available for this device'
+    )
+    live_stream = models.BooleanField(
+        default=False,
+        verbose_name='Used for live-streamed school events'
+    )
+    inperson_learning = models.BooleanField(
+        default=False,
+        verbose_name='Used for in-person learning'
+    )
+    virtual_learning = models.BooleanField(
+        default=False,
+        verbose_name='Used for virtual learning'
+    )
+
+    class Meta:
+        verbose_name = 'Device Category'
+        verbose_name_plural = 'Device Categories'
+        
+    def __str__(self):
+        return self.name 
+    
     
 class DeviceMaker(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False, unique=True)
@@ -299,30 +319,17 @@ class DeviceMaker(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class DeviceType(models.Model):
-    type = models.CharField(
-        max_length=50,
-        verbose_name='Type of Device',
-        null=False,
-        blank=False,
-        unique=True
-    )
-    sn_available = models.BooleanField(verbose_name='S/N (Serial Number) available for this device')
-    imei_available = models.BooleanField(verbose_name='IMEI (International Mobile Equipment Identity) number available for this device')
-    lan_mac_available = models.BooleanField(verbose_name='LAN (ethernet) MAC address available for this device')
-    wlan_mac_available = models.BooleanField(verbose_name='WLAN (wireless) MAC address available for this device')
-    live_stream = models.BooleanField(verbose_name='Used for live-streamed school events')
-    inperson_learning = models.BooleanField(verbose_name='Used for in-person learning')
-    virtual_learning = models.BooleanField(verbose_name='Used for virtual learning')
-
+    
+    
+class DeviceModel(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+    
     class Meta:
-        verbose_name = 'Device Type'
-        verbose_name_plural = 'Device Types'
-        
+        verbose_name = 'Device Model'
+        verbose_name_plural = 'Device Models'
+    
     def __str__(self):
-        return self.type
+        return self.name
 
 
 class GraduationYear(models.Model):
@@ -341,7 +348,7 @@ class School(models.Model):
         max_length=30,
         verbose_name='School Name'
     )
-    building = models.name = models.ForeignKey(
+    building = models.ForeignKey(
         'Building',
         on_delete=models.SET_NULL,
         null=True,
@@ -350,7 +357,7 @@ class School(models.Model):
     )
     
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.building}"
     
 
 class State(models.Model):
@@ -358,4 +365,4 @@ class State(models.Model):
     abbreviation = models.CharField(max_length=2, null=False, blank=True, unique=True)
     
     def __str__(self):
-        return self.name
+        return f"{self.abbreviation} ({self.name})"

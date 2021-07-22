@@ -8,8 +8,9 @@ from .models import (
     City,
     ContactInfoEntry,
     Device,
+    DeviceCategory,
     DeviceMaker,
-    DeviceType,
+    DeviceModel,
     GraduationYear,
     School,
     State
@@ -23,8 +24,9 @@ admin.site.register(Building, ordering=['name'])
 admin.site.register(City, ordering=['name'])
 admin.site.register(ContactInfoEntry)
 admin.site.register(Device, ordering=['device_maker'])
+admin.site.register(DeviceCategory, ordering=['name'])
 admin.site.register(DeviceMaker, ordering=['name'])
-admin.site.register(DeviceType, ordering=['type'])
+admin.site.register(DeviceModel, ordering=['name'])
 admin.site.register(GraduationYear, ordering=['year'])
 admin.site.register(School, ordering=['name'])
 admin.site.register(State, ordering=['name'])
