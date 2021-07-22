@@ -278,11 +278,27 @@ class Device(models.Model):
         blank=False,
         verbose_name='Device Type'
     )
-    manufacturer = models.CharField(max_length=30, verbose_name='Manufacturer', unique=True, null=True, blank=True)
-    model_name = models.CharField(max_length=30, unique=True, null=True, blank=True)
+    device_maker = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+        unique=True,
+        verbose_name='Device Maker'
+    )
+    model_name = models.CharField(max_length=30, null=True, blank=True, unique=True)
     
     def __str__(self):
         return f"{self.manufacturer} - {self.model_name}"
+    
+class DeviceMaker(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+
+    class Meta:
+        verbose_name = 'Device Maker'
+        verbose_name_plural = 'Device Makers'
+
+    def __str__(self):
+        return self.name
 
 
 class DeviceType(models.Model):
