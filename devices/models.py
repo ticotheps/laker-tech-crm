@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, validate_email
 
 class Asset(models.Model):
     device = models.ForeignKey(
@@ -59,12 +59,21 @@ class AssetTag(models.Model):
         return self.tag_id
 
 
-# Validator function for borrowers' email addresses (i.e. - "student@lakerschools.org").
+# Validator function to ensure an email address contains the "lakerschools.org" domain.
 def validate_laker_email(value):
     if "@lakerschools.org" in value:
          return value
     else:
         raise ValidationError("Please try again with a 'lakerschools.org' email address")
+    
+# Validator function to ensure an email address contains the proper components.
+def validate_email_address(value):
+    try:
+        validate_email(value)
+        valid_email = True
+    except validate_email.ValidationError:
+        valid_email = False
+        raise ValidationError("Please try again with a valid email address")
 
 class Borrower(models.Model):
     borrower_type = models.ForeignKey(
@@ -82,7 +91,7 @@ class Borrower(models.Model):
         null=False,
         blank=False,
         unique=True,
-        validators=[validate_laker_email]
+        validators=[validate_laker_email, validate_email_address]
     )
     school = models.name = models.ForeignKey(
         'School',
