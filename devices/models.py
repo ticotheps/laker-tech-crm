@@ -93,6 +93,14 @@ class Borrower(models.Model):
         unique=True,
         validators=[validate_laker_email, validate_email_address]
     )
+    secondary_email = models.EmailField(
+        max_length=254,
+        verbose_name='Secondary Email Address',
+        null=True,
+        blank=True,
+        unique=True,
+        validators=[validate_email_address]
+    )
     school = models.name = models.ForeignKey(
         'School',
         on_delete=models.SET_NULL,
