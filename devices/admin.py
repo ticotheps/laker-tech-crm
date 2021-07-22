@@ -5,11 +5,13 @@ from .models import (
     Borrower,
     BorrowerType,
     Building,
-    ContactInfo,
+    City,
+    # ContactInfo,
     Device,
     DeviceType,
     GraduationYear,
-    School
+    School,
+    # State
 )
 
 admin.site.register(Asset)
@@ -17,7 +19,10 @@ admin.site.register(AssetTag)
 admin.site.register(Borrower)
 admin.site.register(BorrowerType)
 admin.site.register(Building)
+admin.site.register(City)
+# admin.site.register(ContactInfo)
 admin.site.register(Device)
 admin.site.register(DeviceType)
 admin.site.register(GraduationYear)
 admin.site.register(School)
+# admin.site.register(State)

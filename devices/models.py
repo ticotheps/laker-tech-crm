@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 class Asset(models.Model):
     device = models.ForeignKey(
@@ -89,7 +90,7 @@ class Borrower(models.Model):
     )
     account_balance = models.DecimalField(
         decimal_places=2,
-        default=0.0,
+        default=0.00,
         max_digits=6,
         verbose_name='Account Balance'
     )
@@ -122,6 +123,99 @@ class Building(models.Model):
     
     def __str__(self):
         return self.name
+    
+
+class City(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=True, unique=True)
+    
+    class Meta:
+        verbose_name = 'City'
+        verbose_name_plural = 'Cities'
+    
+    def __str__(self):
+        return self.name
+
+    
+# class ContactInfo(models.Model):
+#     # Choices for the 'phone_number_1_type' & the 'phone_number_2_type' fields.
+#     SELECT          = 0
+#     WORK            = 1
+#     HOME            = 2
+#     CELL            = 3
+#     PHONE_NUMBER_TYPE = {
+#         (SELECT, 'Select type of phone number'),
+#         (WORK, 'Work'),
+#         (HOME, 'Home'),
+#         (CELL, 'Cell/Mobile')
+#     }
+
+#     address_1 = models.CharField(
+#         max_length=50,
+#         null=False,
+#         blank=False,
+#         verbose_name='Address (line 1)'
+#     )
+#     address_2 = models.CharField(
+#         max_length=50,
+#         null=True,
+#         blank=True,
+#         verbose_name='Address (line 2)'
+#     )
+    # city = models.ForeignKey(
+    #     'City',
+    #     on_delete=models.CASCADE,
+    #     null=False,
+    #     blank=False
+    # )
+    # state = models.ForeignKey(
+    #     'State',
+    #     on_delete=models.CASCADE,
+    #     null=False,
+    #     blank=False
+    # )
+    # zip_code = models.PositiveIntegerField(
+    #     null=False,
+    #     blank=False,
+    #     verbose_name='Zip Code'
+    # )
+    # # Checks for proper international standard formatting of phone numbers.
+    # phoneNumberRegex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
+    # phone_number_1 = models.CharField(
+    #     validators=[phoneNumberRegex],
+    #     max_length=16,
+    #     unique=True,
+    #     verbose_name='Phone Number #1',
+    #     null=False,
+    #     blank=False
+    # )
+    # phone_number_1_type = models.PositiveSmallIntegerField(
+    #     choices=PHONE_NUMBER_TYPE,
+    #     default=SELECT,
+    #     null=False,
+    #     blank=False,
+    #     verbose_name='Phone Number #1 Type'
+    # )
+    # phone_number_2 = models.CharField(
+    #     validators=[phoneNumberRegex],
+    #     max_length=16,
+    #     unique=True,
+    #     verbose_name='Phone Number #2',
+    #     null=True,
+    #     blank=True
+    # )
+    # phone_number_2_type = models.PositiveSmallIntegerField(
+    #     choices=PHONE_NUMBER_TYPE,
+    #     null=True,
+    #     blank=True,
+    #     verbose_name='Phone Number #2 Type'
+    # )
+    
+    # class Meta:
+    #     verbose_name = 'Contact Information'
+    #     verbose_name_plural = 'Contact Information'
+    
+    # def __str__(self):
+    #     return self.phone_number_1
 
 
 class Device(models.Model):
@@ -222,3 +316,11 @@ class School(models.Model):
     
     def __str__(self):
         return self.name
+    
+
+# class State(models.Model):
+#     name = models.CharField(max_length=20, null=False, blank=True, unique=True)
+#     abbreviation = models.CharField(max_length=2, null=False, blank=True, unique=True)
+    
+#     def __str__(self):
+#         return self.name
