@@ -367,6 +367,37 @@ class State(models.Model):
     def __str__(self):
         return f"{self.abbreviation} ({self.name})"
     
+    
+class Transaction(models.Model):
+    borrower = models.OneToOneField(
+        'Borrower',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False
+    )
+    asset = models.OneToOneField(
+        'Asset',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False
+    )
+    transaction_type = models.ForeignKey(
+        'TransactionType',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        verbose_name='Transaction Type'
+    )
+    transaction_date = models.DateTimeField(
+        auto_now_add=True,
+        null=False,
+        blank=False,
+        verbose_name='Transaction Date'
+    )
+
+    def __str__(self):
+        return self.transaction_date
+    
 
 class TransactionType(models.Model):
     name = models.CharField(max_length=20, null=False, blank=False, unique=True)
@@ -376,5 +407,4 @@ class TransactionType(models.Model):
         verbose_name_plural = 'Transaction Types'
 
     def __str__(self):
-        return self.name    
-
+        return self.name

@@ -14,6 +14,7 @@ from .models import (
     GraduationYear,
     School,
     State,
+    Transaction,
     TransactionType
 )
 
@@ -31,4 +32,5 @@ admin.site.register(DeviceModel, ordering=['name'])
 admin.site.register(GraduationYear, ordering=['year'])
 admin.site.register(School, ordering=['name'])
 admin.site.register(State, ordering=['name'])
+admin.site.register(Transaction, ordering=['transaction_date'])
 admin.site.register(TransactionType, ordering=['name'])
