@@ -1,8 +1,14 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, validate_email
 
 class Asset(models.Model):
+    borrower = models.ForeignKey(
+        'Borrower',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False
+    )
     device = models.ForeignKey(
         'Device',
         on_delete=models.CASCADE,
@@ -13,34 +19,35 @@ class Asset(models.Model):
         'AssetTag',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
-    )
-    borrower = models.ForeignKey(
-        'Borrower',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
+        blank=False,
+        verbose_name='Asset Tag'
     )
     serial_number = models.CharField(
         max_length=50,
+        null=True,
+        blank=False,
+        unique=True,
         verbose_name='Serial Number'
     )
     imei_number = models.PositiveBigIntegerField(
-        verbose_name='IMEI Number',
         null=True,
-        blank=True
+        blank=False,
+        unique=True,
+        verbose_name='IMEI Number'
     )
     lan_mac_address = models.CharField(
         max_length=17,
-        verbose_name='LAN MAC Address',
         null=True,
-        blank=True
+        blank=False,
+        unique=True,
+        verbose_name='LAN MAC Address',
     )
     wlan_mac_address = models.CharField(
         max_length=17,
-        verbose_name='WLAN MAC Address',
         null=True,
-        blank=True
+        blank=False,
+        unique=True,
+        verbose_name='WLAN MAC Address',
     )
     
     def __str__(self):
@@ -59,40 +66,67 @@ class AssetTag(models.Model):
         return self.tag_id
 
 
-# Validator function for borrowers' email addresses (i.e. - "student@lakerschools.org").
-def validate_borrower_email(value):
+# Validator function for borrowers' Laker email addresses (i.e. - "student@lakerschools.org").
+def validate_laker_email(value):
     if "@lakerschools.org" in value:
          return value
     else:
         raise ValidationError("Please try again with a 'lakerschools.org' email address")
-
+    
+# Validator function for borrowers' secondary email addresses.
+def validate_secondary_email(value):
+    try:
+        validate_email(value)
+        valid_email = True
+    except validate_email.ValidationError:
+        valid_email = False
+        raise ValidationError("Please try again with a valid email address")
 
 class Borrower(models.Model):
-    borrower_type = models.name = models.ForeignKey(
+    borrower_type = models.ForeignKey(
         'BorrowerType',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True    
+        blank=False,
+        verbose_name='Borrower Type'
     )
     first_name = models.CharField(max_length=30, verbose_name='First Name')
     last_name = models.CharField(max_length=30, verbose_name='Last Name')
-    email = models.EmailField(
+    contact_info_entry = models.ForeignKey(
+        'ContactInfoEntry',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        verbose_name='Contact Info Entry'
+    )
+    laker_email = models.EmailField(
+        validators=[validate_laker_email],
         max_length=254,
-        verbose_name='Email Address',
+        null=False,
+        blank=False,
         unique=True,
-        validators=[validate_borrower_email]
+        verbose_name='Laker Email Address',
+    )
+    secondary_email = models.EmailField(
+        validators=[validate_secondary_email],
+        max_length=254,
+        null=True,
+        blank=True,
+        unique=True,
+        verbose_name='Secondary Email Address',
     )
     school = models.name = models.ForeignKey(
         'School',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=False
     )
     account_balance = models.DecimalField(
         decimal_places=2,
-        default=0.00,
         max_digits=6,
-        verbose_name='Account Balance'
+        verbose_name='Account Balance',
+        null=True,
+        blank=False
     )
     
     def __str__(self):
@@ -126,7 +160,7 @@ class Building(models.Model):
     
 
 class City(models.Model):
-    name = models.CharField(max_length=50, null=False, blank=True, unique=True)
+    name = models.CharField(max_length=50, null=False, blank=False, unique=True)
     
     class Meta:
         verbose_name = 'City'
@@ -186,9 +220,9 @@ class ContactInfoEntry(models.Model):
     primary_phone = models.CharField(
         validators=[phone_regex],
         max_length=16,
-        verbose_name='Primary Contact Number',
         null=False,
-        blank=False
+        blank=False,
+        verbose_name='Primary Contact Number',
     )
     primary_phone_type = models.PositiveSmallIntegerField(
         choices=PHONE_TYPE,
@@ -199,9 +233,9 @@ class ContactInfoEntry(models.Model):
     secondary_phone = models.CharField(
         validators=[phone_regex],
         max_length=16,
-        verbose_name='Secondary Contact Number',
         null=True,
-        blank=True
+        blank=True,
+        verbose_name='Secondary Contact Number',
     )
     secondary_phone_type = models.PositiveSmallIntegerField(
         choices=PHONE_TYPE,
@@ -255,39 +289,95 @@ class Device(models.Model):
     device_type = models.OneToOneField(
         'DeviceType',
         on_delete=models.CASCADE,
-        null=False,
+        null=True,
         blank=False,
         verbose_name='Device Type'
     )
-    manufacturer = models.CharField(max_length=30, verbose_name='Manufacturer', unique=True, null=True, blank=True)
-    model_name = models.CharField(max_length=30, unique=True, null=True, blank=True)
+    device_maker = models.ForeignKey(
+        'DeviceMaker',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        verbose_name='Device Maker'
+    )
+    device_model = models.ForeignKey(
+        'DeviceModel',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        verbose_name='Device Model'
+    )
     
     def __str__(self):
-        return f"{self.manufacturer} - {self.model_name}"
+        return f"{self.device_maker} - {self.device_model}"
+    
+    
+class DeviceMaker(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+
+    class Meta:
+        verbose_name = 'Device Maker'
+        verbose_name_plural = 'Device Makers'
+
+    def __str__(self):
+        return self.name
+
+    
+class DeviceModel(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+    
+    class Meta:
+        verbose_name = 'Device Model'
+        verbose_name_plural = 'Device Models'
+    
+    def __str__(self):
+        return self.name
 
 
 class DeviceType(models.Model):
-    type = models.CharField(
+    category_name = models.CharField(
         max_length=50,
-        verbose_name='Type of Device',
+        default='Enter category name here',
         null=False,
         blank=False,
-        unique=True
+        unique=True,
+        verbose_name='Category Name',
     )
-    sn_available = models.BooleanField(verbose_name='S/N (Serial Number) available for this device')
-    imei_available = models.BooleanField(verbose_name='IMEI (International Mobile Equipment Identity) number available for this device')
-    lan_mac_available = models.BooleanField(verbose_name='LAN (ethernet) MAC address available for this device')
-    wlan_mac_available = models.BooleanField(verbose_name='WLAN (wireless) MAC address available for this device')
-    live_stream = models.BooleanField(verbose_name='Used for live-streamed school events')
-    inperson_learning = models.BooleanField(verbose_name='Used for in-person learning')
-    virtual_learning = models.BooleanField(verbose_name='Used for virtual learning')
+    sn_available = models.BooleanField(
+        default=False,
+        verbose_name='S/N (Serial Number) available for this device'
+    )
+    imei_available = models.BooleanField(
+        default=False,
+        verbose_name='IMEI (International Mobile Equipment Identity) number available for this device'
+    )
+    lan_mac_available = models.BooleanField(
+        default=False,
+        verbose_name='LAN (ethernet) MAC address available for this device'
+    )
+    wlan_mac_available = models.BooleanField(
+        default=False,
+        verbose_name='WLAN (wireless) MAC address available for this device'
+    )
+    live_stream = models.BooleanField(
+        default=False,
+        verbose_name='Used for live-streamed school events'
+    )
+    inperson_learning = models.BooleanField(
+        default=False,
+        verbose_name='Used for in-person learning'
+    )
+    virtual_learning = models.BooleanField(
+        default=False,
+        verbose_name='Used for virtual learning'
+    )
 
     class Meta:
         verbose_name = 'Device Type'
         verbose_name_plural = 'Device Types'
         
     def __str__(self):
-        return self.type
+        return self.category_name
 
 
 class GraduationYear(models.Model):

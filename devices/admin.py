@@ -8,6 +8,8 @@ from .models import (
     City,
     ContactInfoEntry,
     Device,
+    DeviceMaker,
+    DeviceModel,
     DeviceType,
     GraduationYear,
     School,
@@ -20,9 +22,11 @@ admin.site.register(Borrower, ordering=['first_name'])
 admin.site.register(BorrowerType, ordering=['name'])
 admin.site.register(Building, ordering=['name'])
 admin.site.register(City, ordering=['name'])
-admin.site.register(ContactInfoEntry)
-admin.site.register(Device, ordering=['manufacturer'])
-admin.site.register(DeviceType, ordering=['type'])
+admin.site.register(ContactInfoEntry, ordering=['address_1'])
+admin.site.register(Device, ordering=['device_maker'])
+admin.site.register(DeviceMaker, ordering=['name'])
+admin.site.register(DeviceModel, ordering=['name'])
+admin.site.register(DeviceType, ordering=['category_name'])
 admin.site.register(GraduationYear, ordering=['year'])
 admin.site.register(School, ordering=['name'])
 admin.site.register(State, ordering=['name'])
