@@ -11,7 +11,7 @@ from .models import (
     DeviceType,
     GraduationYear,
     School,
-    # State
+    State
 )
 
 admin.site.register(Asset)
@@ -25,4 +25,4 @@ admin.site.register(Device)
 admin.site.register(DeviceType)
 admin.site.register(GraduationYear)
 admin.site.register(School)
-# admin.site.register(State)
+admin.site.register(State)
