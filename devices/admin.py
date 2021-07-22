@@ -6,7 +6,7 @@ from .models import (
     BorrowerType,
     Building,
     City,
-    # ContactInfo,
+    ContactInfoEntry,
     Device,
     DeviceType,
     GraduationYear,
@@ -14,15 +14,15 @@ from .models import (
     State
 )
 
-admin.site.register(Asset)
-admin.site.register(AssetTag)
-admin.site.register(Borrower)
-admin.site.register(BorrowerType)
-admin.site.register(Building)
-admin.site.register(City)
-# admin.site.register(ContactInfo)
-admin.site.register(Device)
-admin.site.register(DeviceType)
-admin.site.register(GraduationYear)
-admin.site.register(School)
-admin.site.register(State)
+admin.site.register(Asset, ordering=['serial_number'])
+admin.site.register(AssetTag, ordering=['tag_id'])
+admin.site.register(Borrower, ordering=['first_name'])
+admin.site.register(BorrowerType, ordering=['name'])
+admin.site.register(Building, ordering=['name'])
+admin.site.register(City, ordering=['name'])
+admin.site.register(ContactInfoEntry)
+admin.site.register(Device, ordering=['manufacturer'])
+admin.site.register(DeviceType, ordering=['type'])
+admin.site.register(GraduationYear, ordering=['year'])
+admin.site.register(School, ordering=['name'])
+admin.site.register(State, ordering=['name'])
