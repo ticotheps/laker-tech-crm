@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(max_length=30, verbose_name='First Name')),
                 ('last_name', models.CharField(max_length=30, verbose_name='Last Name')),
-                ('email', models.EmailField(max_length=254, unique=True, validators=[devices.models.validate_borrower_email], verbose_name='Email Address')),
+                ('email', models.EmailField(max_length=254, unique=True, validators=[devices.models.validate_laker_email], verbose_name='Email Address')),
                 ('account_balance', models.DecimalField(decimal_places=2, default=0.0, max_digits=6, verbose_name='Account Balance')),
             ],
         ),

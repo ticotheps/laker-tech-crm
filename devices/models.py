@@ -60,15 +60,14 @@ class AssetTag(models.Model):
 
 
 # Validator function for borrowers' email addresses (i.e. - "student@lakerschools.org").
-def validate_borrower_email(value):
+def validate_laker_email(value):
     if "@lakerschools.org" in value:
          return value
     else:
         raise ValidationError("Please try again with a 'lakerschools.org' email address")
 
-
 class Borrower(models.Model):
-    borrower_type = models.name = models.ForeignKey(
+    borrower_type = models.ForeignKey(
         'BorrowerType',
         on_delete=models.SET_NULL,
         null=True,
@@ -76,11 +75,14 @@ class Borrower(models.Model):
     )
     first_name = models.CharField(max_length=30, verbose_name='First Name')
     last_name = models.CharField(max_length=30, verbose_name='Last Name')
-    email = models.EmailField(
+    laker_email = models.EmailField(
         max_length=254,
-        verbose_name='Email Address',
+        verbose_name='Laker Email Address',
+        default='example@lakerschools.org',
+        null=False,
+        blank=False,
         unique=True,
-        validators=[validate_borrower_email]
+        validators=[validate_laker_email]
     )
     school = models.name = models.ForeignKey(
         'School',
