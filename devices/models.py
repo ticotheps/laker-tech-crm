@@ -339,7 +339,15 @@ class DeviceModel(models.Model):
 
 
 class GraduationYear(models.Model):
-    year = models.PositiveSmallIntegerField(verbose_name='Graduation Year', null=False, blank=False)
+    # Checks for proper formatting of a valid 4-digit graduation year up to 2099.
+    year_regex = RegexValidator(regex=r"^(202|203|204|205|206|207|208|209)\d{1}$")
+    year = models.CharField(
+        validators=[year_regex],
+        max_length=4,
+        null=False,
+        blank=False,
+        verbose_name='Graduation Year'
+    )
     
     class Meta:
         verbose_name = 'Graduation Year'
