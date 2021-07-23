@@ -375,7 +375,7 @@ class School(models.Model):
     
 
 class State(models.Model):
-    name = models.CharField(max_length=20, null=False, blank=True, unique=True)
+    name = models.CharField(max_length=50, null=False, blank=True, unique=True)
     abbreviation = models.CharField(max_length=2, null=False, blank=True, unique=True)
     
     def __str__(self):
