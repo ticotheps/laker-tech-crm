@@ -14,8 +14,7 @@ from .models import (
     GraduationYear,
     School,
     State,
-    Transaction,
-    TransactionType
+    Transaction
 )
 
 admin.site.register(Asset, ordering=['asset_tag'])
@@ -33,4 +32,3 @@ admin.site.register(GraduationYear, ordering=['year'])
 admin.site.register(School, ordering=['name'])
 admin.site.register(State, ordering=['name'])
 admin.site.register(Transaction, ordering=['transaction_date'])
-admin.site.register(TransactionType, ordering=['name'])

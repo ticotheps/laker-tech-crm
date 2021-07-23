@@ -3,6 +3,22 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, validate_email
 
 class Asset(models.Model):
+    # Choices for the 'status' field.
+    CHECKED_OUT     = 1
+    DECOMMISIONED   = 2
+    IN_STOCK        = 3
+    LOST            = 4
+    REPAIR          = 5
+    STOLEN          = 6
+    STATUS = {
+        (REPAIR, 'Under Repair'),
+        (STOLEN, 'Stolen'),
+        (LOST, 'Lost'),
+        (IN_STOCK, 'In Stock'),
+        (DECOMMISIONED, 'Decommissioned'),
+        (CHECKED_OUT, 'Checked Out'),
+    }
+    
     device = models.ForeignKey(
         'Device',
         on_delete=models.CASCADE,
@@ -36,6 +52,13 @@ class Asset(models.Model):
         verbose_name='WLAN MAC Address',
         null=True,
         blank=True
+    )
+    status = models.PositiveSmallIntegerField(
+        choices=STATUS,
+        default=IN_STOCK,
+        null=False,
+        blank=False,
+        verbose_name='Status'
     )
     
     def __str__(self):
@@ -385,6 +408,21 @@ class State(models.Model):
     
     
 class Transaction(models.Model):
+    # Choices for the 'action' field.
+    CHECK_IN        = 1
+    CHECK_OUT       = 2
+    DAMAGED         = 3
+    DYSFUNCTIONAL   = 4
+    LOST            = 5
+    STOLEN          = 6
+    ACTION = {
+        (STOLEN, 'Report Stolen'),
+        (LOST, 'Report Lost'),
+        (DYSFUNCTIONAL, 'Report Dysfunctional'),
+        (DAMAGED, 'Report Damage'),
+        (CHECK_OUT, 'Check-Out'),
+        (CHECK_IN, 'Check-In'),
+    }
     borrower = models.OneToOneField(
         'Borrower',
         on_delete=models.SET_NULL,
@@ -397,12 +435,10 @@ class Transaction(models.Model):
         null=True,
         blank=False
     )
-    transaction_type = models.ForeignKey(
-        'TransactionType',
-        on_delete=models.SET_NULL,
+    action = models.PositiveSmallIntegerField(
+        choices=ACTION,
         null=True,
         blank=False,
-        verbose_name='Transaction Type'
     )
     transaction_date = models.DateTimeField(
         auto_now_add=True,
@@ -412,15 +448,4 @@ class Transaction(models.Model):
     )
 
     def __str__(self):
-        return self.transaction_date
-    
-
-class TransactionType(models.Model):
-    name = models.CharField(max_length=20, null=False, blank=False, unique=True)
-
-    class Meta:
-        verbose_name = 'Transaction Type'
-        verbose_name_plural = 'Transaction Types'
-
-    def __str__(self):
-        return self.name
+        return f"{self.borrower} - {self.action}"
