@@ -16,12 +16,6 @@ class Asset(models.Model):
         blank=True,
         verbose_name='Asset Tag'
     )
-    borrower = models.ForeignKey(
-        'Borrower',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
     serial_number = models.CharField(
         max_length=50,
         verbose_name='Serial Number'
@@ -45,7 +39,7 @@ class Asset(models.Model):
     )
     
     def __str__(self):
-        return self.serial_number
+        return f"{self.asset_tag} (S/N: {self.serial_number})"
 
 
 class AssetTag(models.Model):
@@ -89,7 +83,8 @@ class Borrower(models.Model):
         'GraduationYear',
         on_delete=models.SET_NULL,
         null=True,
-        blank=False
+        blank=True,
+        verbose_name='Graduation Year (if applicable)'
     )
     laker_email = models.EmailField(
         max_length=254,
@@ -112,7 +107,8 @@ class Borrower(models.Model):
         'School',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        verbose_name='School of Enrollment (if applicable)'
     )
     account_balance = models.DecimalField(
         decimal_places=2,
