@@ -18,7 +18,7 @@ from .models import (
     TransactionType
 )
 
-admin.site.register(Asset, ordering=['serial_number'])
+admin.site.register(Asset, ordering=['asset_tag'])
 admin.site.register(AssetTag, ordering=['tag_id'])
 admin.site.register(Borrower, ordering=['first_name'])
 admin.site.register(BorrowerType, ordering=['name'])
