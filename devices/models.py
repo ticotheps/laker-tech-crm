@@ -260,6 +260,12 @@ class Device(models.Model):
         blank=False,
         verbose_name='Device Model'
     )
+    replacement_fee = models.DecimalField(
+        decimal_places=2,
+        default=0.00,
+        max_digits=6,
+        verbose_name='Replacement Fee'
+    )
     
     def __str__(self):
         return f"{self.device_maker} - {self.device_model} ({self.device_category})"
