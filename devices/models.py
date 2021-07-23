@@ -328,7 +328,7 @@ class DeviceMaker(models.Model):
     
     
 class DeviceModel(models.Model):
-    name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+    name = models.CharField(max_length=80, null=False, blank=False, unique=True)
     
     class Meta:
         verbose_name = 'Device Model'
