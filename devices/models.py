@@ -85,6 +85,12 @@ class Borrower(models.Model):
     )
     first_name = models.CharField(max_length=30, verbose_name='First Name')
     last_name = models.CharField(max_length=30, verbose_name='Last Name')
+    graduation_year = models.ForeignKey(
+        'GraduationYear',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False
+    )
     laker_email = models.EmailField(
         max_length=254,
         verbose_name='Laker Email Address',
