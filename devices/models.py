@@ -274,7 +274,7 @@ class Device(models.Model):
     )
     
     def __str__(self):
-        return f"{self.device_maker} - {self.device_model} ({self.device_category})"
+        return f"{self.device_maker} - {self.device_model}"
     
     
 class DeviceCategory(models.Model):
