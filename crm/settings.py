@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import sys
+import dj_database_url
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,18 +22,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
+
+DEV_MODE = config('DEV_MODE', default=False, cast=bool)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG')
+if DEV_MODE == True:
+    DEBUG = True
+else:
+    DEBUG = False
 
-DJANGO_ALLOWED_HOST_1 = config('DJANGO_ALLOWED_HOST_1')
-DJANGO_ALLOWED_HOST_2 = config('DJANGO_ALLOWED_HOST_2')
-ALLOWED_HOSTS = [
-    DJANGO_ALLOWED_HOST_1,
-    DJANGO_ALLOWED_HOST_2
-]
-
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
@@ -87,16 +88,24 @@ DB_PASSWORD = config('DB_PASSWORD')
 DB_HOST = config('DB_HOST')
 DB_PORT = config('DB_PORT')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT
+
+if DEV_MODE == True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT
+        }
     }
-}
+else:
+    if config('DATABASE_URL', default=None) == None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        'default': dj_database_url.parse(config('DATABASE_URL'))
+    }
 
 
 # Password validation
