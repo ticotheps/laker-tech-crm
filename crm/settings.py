@@ -79,7 +79,7 @@ DB_HOST = config('DB_HOST')
 DB_PORT = config('DB_PORT')
 
 
-if DEV_MODE == True:
+if DEV_MODE is True:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -90,8 +90,8 @@ if DEV_MODE == True:
             'PORT': DB_PORT
         }
     }
-else:
-    if config('DATABASE_URL', default=None) == None:
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if config('DATABASE_URL', default=None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
         'default': dj_database_url.parse(config('DATABASE_URL'))
@@ -134,8 +134,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
