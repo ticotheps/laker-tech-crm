@@ -22,8 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
+DEV_MODE = config('DEV_MODE', default=False, cast=bool)
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+if DEV_MODE == True:
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', cast=Csv())
 
