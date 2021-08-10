@@ -18,7 +18,11 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = [
+    'https://laker-tech-crm.herokuapp.com/',
+    'localhost',
+    '127.0.0.1',
+]
 
 # Application definition
 
