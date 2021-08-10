@@ -1,6 +1,7 @@
 import os
 import sys
 import dj_database_url
+import django_heroku
 from pathlib import Path
 from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
@@ -17,7 +18,11 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = [
+    'https://laker-tech-crm.herokuapp.com/',
+    'localhost',
+    '127.0.0.1',
+]
 
 # Application definition
 
@@ -135,3 +140,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Activate Django-Heroku
+django_heroku.settings(locals())
