@@ -1,6 +1,7 @@
 import os
 import sys
 import dj_database_url
+import django_heroku
 from pathlib import Path
 from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
@@ -135,3 +136,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Activate Django-Heroku
+django_heroku.settings(locals())
