@@ -20,8 +20,9 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
+    'localhost',
     '.herokuapp.com',
-    'localhost'
+    '.herokudns.com'
 ]
 
 # Application definition
