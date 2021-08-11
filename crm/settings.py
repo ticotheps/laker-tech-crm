@@ -1,17 +1,12 @@
 import os
 import sys
 import dj_database_url
-# import django_heroku
 from pathlib import Path
 from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 SECRET_KEY = config('DJANGO_SECRET_KEY', default=get_random_secret_key())
 
@@ -82,7 +77,7 @@ DATABASES = {
     }
 }
 
-db_from_env = dj_database_url.config(conn_max_age=500)
+db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
 
 
