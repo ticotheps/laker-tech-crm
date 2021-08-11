@@ -1,7 +1,7 @@
 import os
 import sys
 import dj_database_url
-import django_heroku
+# import django_heroku
 from pathlib import Path
 from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
@@ -70,23 +70,19 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 
 DEV_MODE = config('DEV_MODE', default=False, cast=bool)
 
-if DEV_MODE is True:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': config('DB_NAME'),
-            'USER': config('DB_USER'),
-            'PASSWORD': config('DB_PASSWORD'),
-            'HOST': config('DB_HOST'),
-            'PORT': config('DB_PORT')
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT')
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if config('DATABASE_URL', default=None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
-    DATABASES = {
-        'default': dj_database_url.parse(config('DATABASE_URL'))
-    }
+}
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -132,4 +128,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Activate Django-Heroku
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
