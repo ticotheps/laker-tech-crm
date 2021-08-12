@@ -4,20 +4,28 @@ from django.core.validators import RegexValidator, validate_email
 
 class Asset(models.Model):
     # Choices for the 'status' field.
-    CHECKED_OUT     = 1
-    DECOMMISIONED   = 2
-    IN_STOCK        = 3
-    LOST            = 4
-    REPAIR          = 5
-    STOLEN          = 6
-    STATUS = {
-        (REPAIR, 'Under Repair'),
-        (STOLEN, 'Stolen'),
-        (LOST, 'Lost'),
-        (IN_STOCK, 'In Stock'),
-        (DECOMMISIONED, 'Decommissioned'),
-        (CHECKED_OUT, 'Checked Out'),
-    }
+    # CHECKED_OUT     = 1
+    # DECOMMISIONED   = 2
+    # IN_STOCK        = 3
+    # LOST            = 4
+    # REPAIR          = 5
+    # STOLEN          = 6
+    # STATUS = {
+    #     (REPAIR, 'Under Repair'),
+    #     (STOLEN, 'Stolen'),
+    #     (LOST, 'Lost'),
+    #     (IN_STOCK, 'In Stock'),
+    #     (DECOMMISIONED, 'Decommissioned'),
+    #     (CHECKED_OUT, 'Checked Out'),
+    # }
+    
+    # status = models.PositiveSmallIntegerField(
+    #     choices=STATUS,
+    #     default=IN_STOCK,
+    #     null=False,
+    #     blank=False,
+    #     verbose_name='Status'
+    # )
     
     device = models.ForeignKey(
         'Device',
@@ -53,14 +61,13 @@ class Asset(models.Model):
         null=True,
         blank=True
     )
-    status = models.PositiveSmallIntegerField(
-        choices=STATUS,
-        default=IN_STOCK,
-        null=False,
-        blank=False,
-        verbose_name='Status'
+    borrower = models.ForeignKey(
+        'Borrower',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False
     )
-    
+
     def __str__(self):
         return f"{self.asset_tag} (S/N: {self.serial_number})"
 
@@ -98,7 +105,8 @@ class Borrower(models.Model):
         'BorrowerType',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True    
+        blank=True,
+        verbose_name='Borrower Type'    
     )
     first_name = models.CharField(max_length=30, verbose_name='First Name')
     last_name = models.CharField(max_length=30, verbose_name='Last Name')
@@ -237,7 +245,8 @@ class ContactInfoEntry(models.Model):
     )
     primary_phone_type = models.PositiveSmallIntegerField(
         choices=PHONE_TYPE,
-        null=True,
+        default=MOBILE,
+        null=False,
         blank=False,
         verbose_name='Primary Phone Number Type'
     )
