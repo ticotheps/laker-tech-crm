@@ -245,7 +245,8 @@ class ContactInfoEntry(models.Model):
     )
     primary_phone_type = models.PositiveSmallIntegerField(
         choices=PHONE_TYPE,
-        null=True,
+        default=MOBILE,
+        null=False,
         blank=False,
         verbose_name='Primary Phone Number Type'
     )
