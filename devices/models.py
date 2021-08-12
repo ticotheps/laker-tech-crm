@@ -98,7 +98,8 @@ class Borrower(models.Model):
         'BorrowerType',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True    
+        blank=True,
+        verbose_name='Borrower Type'    
     )
     first_name = models.CharField(max_length=30, verbose_name='First Name')
     last_name = models.CharField(max_length=30, verbose_name='Last Name')
