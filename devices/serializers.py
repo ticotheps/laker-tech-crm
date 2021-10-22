@@ -1,5 +1,22 @@
 from rest_framework import serializers
-from models import models
+
+from models import {
+    Asset,
+    AssetTag,
+    Borrower,
+    BorrowerType,
+    Building,
+    City,
+    ContactInfoEntry,
+    Device,
+    DeviceCategory,
+    DeviceMaker,
+    DeviceModel,
+    GraduationYear,
+    School,
+    State,
+    Transaction
+}
 
 
 class AssetSerializer(serializers.ModelSerializer):
