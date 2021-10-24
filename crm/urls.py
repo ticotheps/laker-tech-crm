@@ -6,5 +6,5 @@ from devices import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('devices/', include('devices.urls')),
+    path('api/v1/devices/', include('devices.urls')),
 ]
