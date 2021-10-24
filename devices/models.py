@@ -2,31 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, validate_email
 
-class Asset(models.Model):
-    # Choices for the 'status' field.
-    # CHECKED_OUT     = 1
-    # DECOMMISIONED   = 2
-    # IN_STOCK        = 3
-    # LOST            = 4
-    # REPAIR          = 5
-    # STOLEN          = 6
-    # STATUS = {
-    #     (REPAIR, 'Under Repair'),
-    #     (STOLEN, 'Stolen'),
-    #     (LOST, 'Lost'),
-    #     (IN_STOCK, 'In Stock'),
-    #     (DECOMMISIONED, 'Decommissioned'),
-    #     (CHECKED_OUT, 'Checked Out'),
-    # }
-    
-    # status = models.PositiveSmallIntegerField(
-    #     choices=STATUS,
-    #     default=IN_STOCK,
-    #     null=False,
-    #     blank=False,
-    #     verbose_name='Status'
-    # )
-    
+class Asset(models.Model):    
     device = models.ForeignKey(
         'Device',
         on_delete=models.CASCADE,
