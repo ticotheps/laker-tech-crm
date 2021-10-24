@@ -20,7 +20,10 @@ from devices.models import (
     Transaction
 )
 
-from devices.serializers import AssetSerializer
+from devices.serializers import (
+    AssetSerializer,
+    AssetTagSerializer
+)
 from rest_framework import generics
 
 class AssetList(generics.ListCreateAPIView):
@@ -30,6 +33,15 @@ class AssetList(generics.ListCreateAPIView):
 class AssetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
+    
+
+class AssetTagList(generics.ListCreateAPIView):
+    queryset = AssetTag.objects.all()
+    serializer_class = AssetTagSerializer
+    
+class AssetTagDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AssetTag.objects.all()
+    serializer_class = AssetTagSerializer
     
     
 # @api_view(['GET', 'POST'])
