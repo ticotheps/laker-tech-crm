@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-from models import {
+from devices.models import (
     Asset,
     AssetTag,
     Borrower,
@@ -14,13 +13,11 @@ from models import {
     DeviceModel,
     GraduationYear,
     School,
-    State,
     Transaction
-}
+)
 
 
 class AssetSerializer(serializers.ModelSerializer):
-    
-    class meta:
+    class Meta:
         model = Asset
         fields = '__all__'
